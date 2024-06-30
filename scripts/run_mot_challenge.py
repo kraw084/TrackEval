@@ -94,7 +94,7 @@ def main(command=False, **kwargs):
             metrics_list.append(metric(metrics_config))
     if len(metrics_list) == 0:
         raise Exception('No metrics selected for evaluation')
-    evaluator.evaluate(dataset_list, metrics_list)
+    evaluator.evaluate(dataset_list, metrics_list, True)
 
 
 if __name__ == "__main__":
