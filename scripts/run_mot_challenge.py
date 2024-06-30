@@ -41,7 +41,8 @@ from multiprocessing import freeze_support
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import trackeval  # noqa: E402
 
-if __name__ == '__main__':
+
+def main(command=False, **kwargs):
     freeze_support()
 
     # Command line interface:
@@ -56,7 +57,12 @@ if __name__ == '__main__':
             parser.add_argument("--" + setting, nargs='+')
         else:
             parser.add_argument("--" + setting)
-    args = parser.parse_args().__dict__
+
+    if command:
+        args = parser.parse_args().__dict__
+    else:
+        args = kwargs
+
     for setting in args.keys():
         if args[setting] is not None:
             if type(config[setting]) == type(True):
@@ -89,3 +95,7 @@ if __name__ == '__main__':
     if len(metrics_list) == 0:
         raise Exception('No metrics selected for evaluation')
     evaluator.evaluate(dataset_list, metrics_list)
+
+
+if __name__ == "__main__":
+    main(command=True)
